@@ -181,7 +181,7 @@ Total Queries: 197
 TTO: 42 (ms)
 Full log saved to: ./TestResults/TREE-sample.txt
 --------------------------------------------
-``
+```
 
 **Log File Structure**  
 Each smoke test saves its full output log into the `TestResults` directory (e.g., `TestResults/MP-sample.txt`).  
@@ -267,4 +267,3 @@ sudo docker rmi -f learning-weak-dba
 ```
 
 ---
-
