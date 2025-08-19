@@ -1,6 +1,6 @@
 # Random wDBA Generation Scripts
 
-This folder contains scripts to generate and validate random weak deterministic Büchi automata (wDBA) samples.
+This folder contains scripts to generate and validate random weak deterministic Büchi automata (wDBA) samples. These scripts were used to generate the set of random wDBAs used in our experiments.
 
 ## Scripts
 
