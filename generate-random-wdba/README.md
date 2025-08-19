@@ -23,8 +23,7 @@ This folder contains scripts to generate and validate random weak deterministic 
 
 ## Generating Random wDBAs
 
-1. Make the script executable:
-2. 
+1. Make the script executable: 
 ```bash
 chmod +x wdba-gen.sh
 ```
