@@ -63,7 +63,7 @@ Inside this directory, you will find the following key files and folders related
   Key files include:  
 
   - `ROLL.jar` – main Java tool implementing the learning algorithms.  
-  - `bench_run.sh`, `bench_print.sh`, `run.sh` – scripts to run experiments on benchmark samples and process results.  
+  - `run.sh`,`bench_run.sh`, `bench_print.sh`, `print.sh` – scripts to run experiments on benchmark samples and process results.  
   - `BenchmarkSamples/` – sample automata used as inputs for learning.  
   - `BenchmarkResults/` – folder where experimental output logs and results are saved.  
   - `get-MQ.py`, `get-EQ.py`, `get-TTO.py` – scripts to extract query and timing data from logs.  
