@@ -38,7 +38,7 @@ Check the image has been loaded:
 sudo docker images
 ```
 
-You should see `learning-weak-dba` in the image list.
+One should see `learning-weak-dba` in the image list.
 
 Run the container:
 
@@ -46,7 +46,7 @@ Run the container:
 sudo docker run -it learning-weak-dba
 ```
 
-After the container starts, you should be placed in the default working directory:
+After the container starts, one should be placed in the default working directory:
 
 ```
 /workspace
@@ -56,18 +56,21 @@ After the container starts, you should be placed in the default working director
 
 ## Directory Structure
 
-Inside this directory, you will find the following key files and folders related to our weak deterministic Büchi automata(wDBA) learning experiments:
+Inside this directory, one will find the following key files and folders related to our weak deterministic Büchi automata (wDBA) learning experiments:
 
 - **Experiments/**  
   Contains all scripts and benchmark samples needed to replicate the experimental results reported in our paper.  
   Key files include:  
 
   - `ROLL.jar` – main Java tool implementing the learning algorithms.  
-  - `run.sh`, `bench_run.sh`, `bench_print.sh`, `print.sh` – scripts to run experiments on benchmark samples and process results.  
-  - `BenchmarkSamples/` – sample automata used as inputs for learning.  
-  - `BenchmarkResults/` – folder where experimental output logs and results are saved.  
-  - `get-MQ.py`, `get-EQ.py`, `get-TTO.py` – scripts to extract query and timing data from logs.  
   - `SmokeTest/` – contains smoke test scripts to verify basic functionality of the learning algorithms.
+  - `bench_run.sh`, `bench_print.sh`, `run.sh` – scripts to run experiments on benchmark samples and process results.  
+  - `wdba/` – Randomly generated wDBA samples created for our experiments.  
+  - `results/` – folder where experimental output logs and results are saved for random wDBAs.  
+  - `BenchmarkSamples/` – sample automata (DFA benchmarks) used as inputs for learning.  
+  - `BenchmarkResults/` – folder where experimental output logs and results are saved for DFA benchmarks.  
+  - `get-MQ.py`, `get-EQ.py`, `get-TTO.py` – scripts to extract query and timing data from logs.  
+
 
 ---
 
@@ -75,15 +78,15 @@ Inside this directory, you will find the following key files and folders related
 
 The experiments use two main sets wDBAs:
 
-- `wdba/` – Randomly generated weak DBA samples created for our experiments.  
-- `BenchmarkSamples/` – weak DBA obtained by converting DFA benchmarks from the [Automata Wiki](https://automata.cs.ru.nl/Downloads).
+- `wdba/` – Randomly generated wDBA samples created for our experiments, the scripts for generating the random wDBAs can be found on the [GitHub page](https://github.com/MonaLam87/Weak-DBA) (under `generate-random-wdba/`).  
+- `BenchmarkSamples/` – wDBA obtained by converting DFA benchmarks from the [Automata Wiki](https://automata.cs.ru.nl/Downloads).
 
 ---
 
 ## File Input Format
 
 All automata are written in the `.ba` format.  
-Below is an example of a small automaton with 3 states and 2 letters:
+Below is an example of a small automaton with 3 states ([0],[1] and [2]) and 3 letters (a, b and c):
 
 ```
 [0]
@@ -100,6 +103,16 @@ c,[2]->[2]
 [1]
 ```
 
+The first line specifies the initial state.
+For example, in the snippet above, the initial state is [0].
+
+The last lines list the accepting states.
+In the example, the accepting states are [0] and [1].
+
+Between these, the file describes the transitions.
+Each transition is written as a letter followed by a state-to-state mapping. For instance:
+`c,[0]->[2]` means that upon reading the letter c, the automaton moves from state [0] to state [2]. 
+
 ---
 
 ## Installation
@@ -112,7 +125,7 @@ In this artifact, we include the compiled `ROLL.jar` file, so no additional inst
 
 ## Smoke Tests
 
-The artifact includes implementations of the **MP** algorithm (from the classic paper *On the Learnability of Infinitary Regular Sets*, JCSS 1995) as well as our **wDBA** algorithm using **TABLE** and **TREE** data structures. These smoke tests allow you to quickly verify that the artifact runs correctly without reproducing the full experiments.
+The artifact includes implementations of the **MP** algorithm (from the classic paper *On the Learnability of Infinitary Regular Sets*, JCSS 1995) and the **DBA** learning algorithm (from *Angluin-Style Learning of Deterministic Büchi and Co-Büchi Automata*, IJCAI 2024) as well as our wDBA learning algorithm using **TABLE** and **TREE** data structures, respectively. These smoke tests allow to quickly verify that the artifact runs correctly without reproducing the full experiments.
 
 The smoke test uses a **small weak deterministic Büchi automaton (wDBA)** with:  
 
@@ -129,6 +142,25 @@ Navigate to the `SmokeTest` directory:
 ```bash
 cd Experiments/SmokeTest
 ```
+
+Test the DBA algorithm:
+
+```bash
+./TestDBA.sh
+```
+
+Expected output (time may vary on different machines, same for the other experiments):
+
+```
+Running DBA algorithm on ./sample.ba...
+--------------------------------------------
+Summary for DBA Algorithm:
+Total Queries: 681
+TTO: 317 (ms)
+Full log saved to: ./TestResults/DBA-sample.txt
+--------------------------------------------
+```
+
 
 Test the MP algorithm:
 
@@ -203,7 +235,7 @@ These files allow users to verify both correctness (by comparing learned automat
 
 ## Full Experiments
 
-Assuming you are inside the `Experiments` directory:
+Assuming we are inside the `Experiments` directory:
 
 To reproduce the full benchmark results:
 
