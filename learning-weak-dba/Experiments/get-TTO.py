@@ -3,9 +3,9 @@ import re
 import argparse
 
 def compute_average_tto(folder_path, prefix):
-    total_tto = 0
+    total_tto = 0.0  # milliseconds
     tto_count = 0
-    tto_pattern = re.compile(r"#TTO = ([\d.]+)")
+    tto_pattern = re.compile(r"#TTO\s*=\s*([\d.]+)")
 
     for root, _, files in os.walk(folder_path):
         for file_name in files:
@@ -17,7 +17,7 @@ def compute_average_tto(folder_path, prefix):
                             match = tto_pattern.search(line)
                             if match:
                                 try:
-                                    tto_value = float(match.group(1))
+                                    tto_value = float(match.group(1))  # ms
                                     total_tto += tto_value
                                     tto_count += 1
                                 except ValueError:
@@ -27,8 +27,9 @@ def compute_average_tto(folder_path, prefix):
 
     if tto_count > 0:
         avg_ms = total_tto / tto_count
-        avg_sec = avg_ms / 1000
-        print(f"{prefix} Average #TTO = {avg_sec:.2f} s")
+        avg_sec = avg_ms / 1000.0
+        # print with general format (no forced trailing zeros)
+        print(f"{prefix} Average #TTO = {avg_sec:g} s")
         return avg_sec
     else:
         print(f"No valid {prefix} #TTO values found.")
@@ -44,6 +45,6 @@ if __name__ == "__main__":
     avg_table = compute_average_tto(args.folder_path, "Table")
     avg_tree = compute_average_tto(args.folder_path, "Tree")
 
-    # Print all on one line in seconds if all are available
+    # Print all on one line in seconds (unrounded) if all are available
     if None not in (avg_dba, avg_mp, avg_table, avg_tree):
-        print(f"{avg_dba:.2f} {avg_mp:.2f} {avg_table:.2f} {avg_tree:.2f}")
+        print(f"{avg_dba:g} {avg_mp:g} {avg_table:g} {avg_tree:g}")
