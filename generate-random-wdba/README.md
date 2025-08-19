@@ -27,10 +27,10 @@ This folder contains scripts to generate and validate random weak deterministic 
 
 ```bash
 chmod +x wdba-gen.sh
-
+```
 2. Run the script:
 
 ```bash
 bash wdba-gen.sh
-
+```
 
